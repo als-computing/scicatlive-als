@@ -1,17 +1,31 @@
 services:
   backend:
-    image: ghcr.io/scicatproject/backend-next:v4.16.0
+    platform: linux/amd64
+    # We're backing up a step and using the nginx image that the back end's Dockerfile specifies as a base image
+    image: node:20-alpine
     depends_on:
       mongodb:
         condition: service_started
     volumes:
+      # Bind-mount the build products where they're expected to be in the standard distribution image
+      - ${SCICAT_BACKEND_ALS_LOCATION:-.}/dist:/home/node/app/dist
+      - ${SCICAT_BACKEND_ALS_LOCATION:-.}/migrations:/home/node/app/migrations
+      - ${SCICAT_BACKEND_ALS_LOCATION:-.}/migrate-mongo-config.js:/home/node/app/migrate-mongo-config.js
+      - ${SCICAT_BACKEND_ALS_LOCATION:-.}/package.json:/home/node/app/package.json
+      # Bind-mount our cache of platform-specific node packages
+      - ${PWD}/services/backend/services/v4/backend_node_modules:/home/node/app/node_modules
       - ./config/functionalAccounts.json:/home/node/app/functionalAccounts.json
       - ${PWD}/entrypoints/loop_entrypoints.sh:/usr/local/bin/loop_entrypoints.sh
+      - ./entrypoints/npm_install.sh:/docker-entrypoints/9.sh
       - ./entrypoints/db_migration.sh:/docker-entrypoints/10.sh
     entrypoint:
       - loop_entrypoints.sh
       - docker-entrypoint.sh
     command: node dist/main
+    working_dir: /home/node/app/
+    labels:
+      # Adding a label for traefik to learn which port to look for a service on
+      - traefik.http.services.backend.loadbalancer.server.port=3000
     env_file:
       - ./config/.env
     healthcheck:
