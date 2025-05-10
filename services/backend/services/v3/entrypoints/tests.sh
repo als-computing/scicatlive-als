@@ -1,1 +1,0 @@
-../../../../../entrypoints/npm_tests.sh
