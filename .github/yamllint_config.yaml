@@ -1,9 +1,0 @@
----
-
-extends: default
-
-rules:
-  quoted-strings:
-    required: only-when-needed
-    quote-type: single
-  document-start: disable
