@@ -25,6 +25,8 @@ The front end and back end are running using folder mappings from the build prod
 
 ## Why does this exist?
 
+SciCatLive is very useful, but at the expense of simplicity.  This fork is meant to provide just enough of the SciCat services to let a developer test the front-end and back-end together, even when both are under heavy local development.  All the other flexibility has been stripped out.
+
 You may ask:  Why not just create a single consolidated docker compose file of all these components, rather than slimming down the official SciCatLive?
 
 Good question.  The idea is, this is a fork with a branch (to mix some metaphors) so when SciCatLive is updated by other developers to fix breaking changes in the front or back end, or the other components, we can just pull down master and merge what we need onto the branch here.
