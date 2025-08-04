@@ -22,7 +22,10 @@ services:
       - loop_entrypoints.sh
       - docker-entrypoint.sh
     command: node dist/main
+<<<<<<< HEAD
     working_dir: /home/node/app/
+=======
+>>>>>>> a0ec784 (Adding missing ports for traefik to resolve connections.)
     labels:
       # Adding a label for traefik to learn which port to look for a service on
       - traefik.http.services.backend.loadbalancer.server.port=3000
