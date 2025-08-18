@@ -7,17 +7,24 @@ services:
       mongodb:
         condition: service_started
     volumes:
-      # Bind-mount the build products where they're expected to be in the standard distribution image
-      - ${SCICAT_BACKEND_ALS_LOCATION:-.}/dist:/home/node/app/dist
+      # Bind-mount the source and configuration files from the back end repo:
+      - ${SCICAT_BACKEND_ALS_LOCATION:-.}/src:/home/node/app/src
       - ${SCICAT_BACKEND_ALS_LOCATION:-.}/migrations:/home/node/app/migrations
       - ${SCICAT_BACKEND_ALS_LOCATION:-.}/migrate-mongo-config.js:/home/node/app/migrate-mongo-config.js
       - ${SCICAT_BACKEND_ALS_LOCATION:-.}/package.json:/home/node/app/package.json
-      # Bind-mount our cache of platform-specific node packages
-      - ${PWD}/services/backend/services/v4/backend_node_modules:/home/node/app/node_modules
+      - ${SCICAT_BACKEND_ALS_LOCATION:-.}/tsconfig.json:/home/node/app/tsconfig.json
+      - ${SCICAT_BACKEND_ALS_LOCATION:-.}/tsconfig.build.json:/home/node/app/tsconfig.build.json
+      - ${SCICAT_BACKEND_ALS_LOCATION:-.}/datasetExternalLinkTemplates.example.json:/home/node/app/datasetExternalLinkTemplates.json
+      # Bind-mount our cache of node packages:
+      # (We can't use the one in the local repo because of platform differences.)
+      - ${PWD}/services/backend/node_module_cache:/home/node/app/node_modules
+      # Map in our own definitions of functional accounts:
       - ./config/functionalAccounts.json:/home/node/app/functionalAccounts.json
+      # Map in scripts to configure and build:
       - ${PWD}/entrypoints/loop_entrypoints.sh:/usr/local/bin/loop_entrypoints.sh
-      - ./entrypoints/npm_install.sh:/docker-entrypoints/9.sh
-      - ./entrypoints/db_migration.sh:/docker-entrypoints/10.sh
+      - ./entrypoints/npm_install.sh:/docker-entrypoints/11.sh
+      - ./entrypoints/build.sh:/docker-entrypoints/10.sh
+      - ./entrypoints/db_migration.sh:/docker-entrypoints/9.sh
     entrypoint:
       - loop_entrypoints.sh
       - docker-entrypoint.sh
