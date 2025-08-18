@@ -5,4 +5,4 @@ node_modules/
 *.ipynb
 .ruff_cache/
 bbackup/*
-services/backend/services/v4/backend_node_modules/*
+services/backend/node_module_cache/*
