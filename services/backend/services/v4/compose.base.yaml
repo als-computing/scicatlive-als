@@ -12,6 +12,8 @@ services:
       - ${SCICAT_BACKEND_ALS_LOCATION:-.}/migrations:/home/node/app/migrations
       - ${SCICAT_BACKEND_ALS_LOCATION:-.}/migrate-mongo-config.js:/home/node/app/migrate-mongo-config.js
       - ${SCICAT_BACKEND_ALS_LOCATION:-.}/package.json:/home/node/app/package.json
+      - ${SCICAT_BACKEND_ALS_LOCATION:-.}/package-lock.json:/home/node/app/package-lock.json
+      - ${SCICAT_BACKEND_ALS_LOCATION:-.}/nest-cli.json:/home/node/app/nest-cli.json
       - ${SCICAT_BACKEND_ALS_LOCATION:-.}/tsconfig.json:/home/node/app/tsconfig.json
       - ${SCICAT_BACKEND_ALS_LOCATION:-.}/tsconfig.build.json:/home/node/app/tsconfig.build.json
       - ${SCICAT_BACKEND_ALS_LOCATION:-.}/datasetExternalLinkTemplates.example.json:/home/node/app/datasetExternalLinkTemplates.json
