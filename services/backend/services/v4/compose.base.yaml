@@ -16,6 +16,7 @@ services:
       - ${SCICAT_BACKEND_ALS_LOCATION:-.}/nest-cli.json:/home/node/app/nest-cli.json
       - ${SCICAT_BACKEND_ALS_LOCATION:-.}/tsconfig.json:/home/node/app/tsconfig.json
       - ${SCICAT_BACKEND_ALS_LOCATION:-.}/tsconfig.build.json:/home/node/app/tsconfig.build.json
+      - ${SCICAT_BACKEND_ALS_LOCATION:-.}/publishedDataConfig.example.json:/home/node/app/publishedDataConfig.json
       - ${SCICAT_BACKEND_ALS_LOCATION:-.}/datasetExternalLinkTemplates.example.json:/home/node/app/datasetExternalLinkTemplates.json
       # Bind-mount our cache of node packages:
       # (We can't use the one in the local repo because of platform differences.)
